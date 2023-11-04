@@ -31,10 +31,7 @@ class CommandQueue
     public function addCommandFromString(string $commandString) {
         $command = match(0) {
             strpos($commandString, 'PLACE') => new PlaceCommand(
-                $this->toyRobot,
-                explode(",", explode(" ", $commandString)[1])[0],
-                explode(",", explode(" ", $commandString)[1])[1],
-                Direction::from(explode(",", explode(" ", $commandString)[1])[2])
+                $this->toyRobot, ...explode(",", explode(" ", $commandString)[1])
             ),
             strpos($commandString, 'MOVE') => new MoveCommand(
                 $this->toyRobot
