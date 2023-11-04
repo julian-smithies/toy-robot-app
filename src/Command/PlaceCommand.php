@@ -10,12 +10,12 @@ class PlaceCommand extends ToyRobotCommand
     private int $yPosition;
     private Direction $direction;
 
-    public function __construct(ToyRobot $toyRobot, int $xPosition, int $yPosition, Direction $direction)
+    public function __construct(ToyRobot $toyRobot, int $xPosition, int $yPosition, Direction|string $direction)
     {
         parent::__construct($toyRobot);
         $this->xPosition = $xPosition;
         $this->yPosition = $yPosition;
-        $this->direction = $direction;
+        $this->direction = $direction instanceof Direction ? $direction : Direction::from($direction);
     }
 
     public function execute() : void
