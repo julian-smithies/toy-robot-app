@@ -1,5 +1,5 @@
 <?php
-namespace Julian\ToyRobot\Command;
+namespace Julian\ToyRobotApp\Command;
 
 interface Command
 {

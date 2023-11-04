@@ -1,15 +1,13 @@
 <?php
-namespace Julian\ToyRobot;
+namespace Julian\ToyRobotApp\ToyRobot;
+
+use Julian\ToyRobotApp\Generic\Direction;
+use Julian\ToyRobotApp\Generic\Table;
 
 class ToyRobot {
     private int $xPosition;
     private int $yPosition;
     private Direction $direction;
-
-    public function __construct()
-    {
-        echo('Toy Robot... booting up...');
-    }
 
     public function getXPosition() { return $this->xPosition; }
     public function getYPosition() { return $this->yPosition; }

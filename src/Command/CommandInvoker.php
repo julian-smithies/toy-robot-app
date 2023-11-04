@@ -1,7 +1,5 @@
 <?php
-namespace Julian\ToyRobot;
-
-use Julian\ToyRobot\Command\Command;
+namespace Julian\ToyRobotApp\Command;
 
 class CommandInvoker
 {

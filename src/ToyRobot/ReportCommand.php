@@ -1,5 +1,5 @@
 <?php
-namespace Julian\ToyRobot\Command;
+namespace Julian\ToyRobotApp\ToyRobot;
 
 class ReportCommand extends ToyRobotCommand
 {

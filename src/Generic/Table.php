@@ -1,5 +1,5 @@
 <?php
-namespace Julian\ToyRobot;
+namespace Julian\ToyRobotApp\Generic;
 
 class Table
 {

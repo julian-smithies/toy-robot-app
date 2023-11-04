@@ -1,16 +1,16 @@
 <?php
 
-use Julian\ToyRobot\Command\LeftCommand;
+use Julian\ToyRobotApp\Command\CommandInvoker;
+use Julian\ToyRobotApp\Generic\Direction;
+use Julian\ToyRobotApp\Generic\Table;
+use Julian\ToyRobotApp\ToyRobot\LeftCommand;
+use Julian\ToyRobotApp\ToyRobot\MoveCommand;
+use Julian\ToyRobotApp\ToyRobot\PlaceCommand;
+use Julian\ToyRobotApp\ToyRobot\ReportCommand;
+use Julian\ToyRobotApp\ToyRobot\RightCommand;
+use Julian\ToyRobotApp\ToyRobot\ToyRobot;
+use Julian\ToyRobotApp\ToyRobot\ToyRobotCommandQueue;
 use PHPUnit\Framework\TestCase;
-use Julian\ToyRobot\Command\MoveCommand;
-use Julian\ToyRobot\Command\PlaceCommand;
-use Julian\ToyRobot\Command\ReportCommand;
-use Julian\ToyRobot\Command\RightCommand;
-use Julian\ToyRobot\CommandInvoker;
-use Julian\ToyRobot\CommandQueue;
-use Julian\ToyRobot\Direction;
-use Julian\ToyRobot\Table;
-use Julian\ToyRobot\ToyRobot;
 
 final class ToyRobotTest extends TestCase {
     function testRobotCanBePlacedOnTable() {
@@ -96,7 +96,7 @@ final class ToyRobotTest extends TestCase {
         $robot = new ToyRobot();
         $table = new Table(5, 5);
 
-        $queue = new CommandQueue($robot, $table);
+        $queue = new ToyRobotCommandQueue($robot, $table);
         $queue->addCommandFromString("MOVE");
         $queue->addCommandFromString("LEFT");
         $queue->addCommandFromString("RIGHT");

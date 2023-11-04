@@ -1,9 +1,8 @@
 <?php
-namespace Julian\ToyRobot\Command;
+namespace Julian\ToyRobotApp\ToyRobot;
 
-use Julian\ToyRobot\Direction;
-use Julian\ToyRobot\Table;
-use Julian\ToyRobot\ToyRobot;
+use Julian\ToyRobotApp\Generic\Direction;
+use Julian\ToyRobotApp\Generic\Table;
 
 class PlaceCommand extends ToyRobotCommand
 {
