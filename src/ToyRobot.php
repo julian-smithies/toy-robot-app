@@ -1,4 +1,6 @@
 <?php
+namespace Julian\ToyRobot;
+
 class ToyRobot {
     private int $xPosition;
     private int $yPosition;
@@ -15,8 +17,8 @@ class ToyRobot {
 
     public function setPosition(int $xPosition, int $yPosition)
     {
-        $this->$xPosition = $xPosition;
-        $this->$yPosition = $yPosition;
+        $this->xPosition = $xPosition;
+        $this->yPosition = $yPosition;
     }
 
     public function setDirection(Direction $direction) 
