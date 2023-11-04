@@ -1,4 +1,9 @@
 <?php
+namespace Julian\ToyRobot\Command;
+
+use Julian\ToyRobot\Direction;
+use Julian\ToyRobot\ToyRobot;
+
 class PlaceCommand extends ToyRobotCommand
 {
     private int $xPosition;

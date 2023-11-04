@@ -1,4 +1,8 @@
 <?php
+namespace Julian\ToyRobot\Command;
+
+use Julian\ToyRobot\ToyRobot;
+
 abstract class ToyRobotCommand implements Command
 {
     protected ToyRobot $toyRobot;

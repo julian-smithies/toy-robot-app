@@ -1,11 +1,9 @@
 <?php
-require_once __DIR__ . "/../src/Command.php";
-require_once __DIR__ . "/../src/ToyRobot.php";
-require_once __DIR__ . "/../src/Direction.php";
-require_once __DIR__ . "/../src/ToyRobotCommand.php";
-require_once __DIR__ . "/../src/PlaceCommand.php";
-require_once __DIR__ . "/../src/MoveCommand.php";
 use PHPUnit\Framework\TestCase;
+use Julian\ToyRobot\Command\MoveCommand;
+use Julian\ToyRobot\Command\PlaceCommand;
+use Julian\ToyRobot\Direction;
+use Julian\ToyRobot\ToyRobot;
 
 final class ToyRobotTest extends TestCase {
     function testRobotCanBePlaced() {

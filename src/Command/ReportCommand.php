@@ -1,4 +1,6 @@
 <?php
+namespace Julian\ToyRobot\Command;
+
 class ReportCommand extends ToyRobotCommand
 {
     public function execute() : void

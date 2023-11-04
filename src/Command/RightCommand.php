@@ -1,4 +1,8 @@
 <?php
+namespace Julian\ToyRobot\Command;
+
+use Julian\ToyRobot\Direction;
+
 class RightCommand extends ToyRobotCommand
 {
     public function execute(): void
