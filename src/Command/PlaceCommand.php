@@ -13,11 +13,9 @@ class PlaceCommand extends ToyRobotCommand
     public function __construct(ToyRobot $toyRobot, int $xPosition, int $yPosition, Direction $direction)
     {
         parent::__construct($toyRobot);
-        $this->$xPosition = $xPosition;
-        $this->$yPosition = $yPosition;
-        echo(print_r($direction, 1));
-
-        $this->$direction = $direction;
+        $this->xPosition = $xPosition;
+        $this->yPosition = $yPosition;
+        $this->direction = $direction;
     }
 
     public function execute() : void
