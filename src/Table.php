@@ -1,4 +1,6 @@
 <?php
+namespace Julian\ToyRobot;
+
 class Table
 {
     private int $xDimension;
