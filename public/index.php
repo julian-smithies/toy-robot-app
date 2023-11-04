@@ -4,5 +4,5 @@ use Julian\ToyRobot\ToyRobot;
 
 $robot = new ToyRobot();
 $commandQueue = new CommandQueue($robot);
-$commandQueue->importFromFile($_SERVER['DOCUMENT_ROOT'] . '/inputs/test_all_commands.txt');
+$commandQueue->importFromFile($_SERVER['DOCUMENT_ROOT'] . '/inputs/test_commands.txt');
 $commandQueue->execute();
