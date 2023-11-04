@@ -9,6 +9,7 @@ use Julian\ToyRobotApp\ToyRobot\PlaceCommand;
 use Julian\ToyRobotApp\ToyRobot\ReportCommand;
 use Julian\ToyRobotApp\ToyRobot\RightCommand;
 use Julian\ToyRobotApp\ToyRobot\ToyRobot;
+use Julian\ToyRobotApp\ToyRobot\ToyRobotCommandParser;
 use Julian\ToyRobotApp\ToyRobot\ToyRobotCommandQueue;
 use PHPUnit\Framework\TestCase;
 
@@ -112,5 +113,68 @@ final class ToyRobotTest extends TestCase
         $queue->invokeCommands();
 
         $this->assertEquals($queue->getCommandsExecuted(), 0);
+    }
+
+    function testRobotIgnoresMoveCommandIfDestinationIsOffTable() {
+        $robot = new ToyRobot();
+        $table = new Table(5, 5);
+
+        $queue = new ToyRobotCommandQueue($robot, $table);
+        $queue->addCommandFromString("PLACE 3,3,NORTH");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("REPORT");
+        $queue->invokeCommands();
+
+        $this->expectOutputRegex("/Output: 3,5,NORTH/");
+    }
+
+    function testRobotExecutesNewCommandsAfterIgnoringMoveCommand() {
+        $robot = new ToyRobot();
+        $table = new Table(5, 5);
+
+        $queue = new ToyRobotCommandQueue($robot, $table);
+        $queue->addCommandFromString("PLACE 3,3,NORTH");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("RIGHT");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("REPORT");
+        $queue->invokeCommands();
+
+        $this->expectOutputRegex("/Output: 5,5,EAST/");
+    }
+
+    function testRobotCanBePlacedMultipleTimes() {
+        $robot = new ToyRobot();
+        $table = new Table(5, 5);
+
+        $parser = new ToyRobotCommandParser($robot, $table);
+        $placeCommand1 = $parser->parse("PLACE 3,3,NORTH");
+        $placeCommand2 = $parser->parse("PLACE 2,5,EAST");
+        $placeCommand3 = $parser->parse("PLACE 4,1,WEST");
+
+        $invoker = new CommandInvoker();
+        $invoker->invoke($placeCommand1);
+        $this->assertEquals($robot->getXPosition(), 3);
+        $this->assertEquals($robot->getYPosition(), 3);
+        $this->assertEquals($robot->getDirection(), Direction::NORTH);
+
+        $invoker->invoke($placeCommand2);
+        $this->assertEquals($robot->getXPosition(), 2);
+        $this->assertEquals($robot->getYPosition(), 5);
+        $this->assertEquals($robot->getDirection(), Direction::EAST);
+
+        $invoker->invoke($placeCommand3);
+        $this->assertEquals($robot->getXPosition(), 4);
+        $this->assertEquals($robot->getYPosition(), 1);
+        $this->assertEquals($robot->getDirection(), Direction::WEST);
     }
 }
