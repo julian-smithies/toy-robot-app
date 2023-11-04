@@ -1,8 +1,9 @@
 <?php
-enum Direction {
-    case NORTH;
-    case SOUTH;
-    case EAST;
-    case WEST;
+namespace Julian\ToyRobot;
+
+enum Direction : string{
+    case NORTH = "NORTH";
+    case SOUTH = "SOUTH";
+    case EAST = "EAST";
+    case WEST = "WEST";
 }
-?>
