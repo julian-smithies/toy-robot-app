@@ -9,10 +9,10 @@ class ReportCommand extends ToyRobotCommand
         $yPosition = $this->toyRobot->getYPosition();
         $direction = $this->toyRobot->getDirection();
 
-        echo(implode(',', [
+        echo("<br>Output: " . implode(',', [
             $xPosition,
             $yPosition,
-            $direction
+            $direction->value
         ]));
     }
 }
