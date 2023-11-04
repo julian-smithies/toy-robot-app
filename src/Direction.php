@@ -1,8 +1,8 @@
 <?php
-    enum Direction {
-        case NORTH;
-        case SOUTH;
-        case EAST;
-        case WEST;
-    }
+enum Direction {
+    case NORTH;
+    case SOUTH;
+    case EAST;
+    case WEST;
+}
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 class Table
 {
     private int $xDimension;

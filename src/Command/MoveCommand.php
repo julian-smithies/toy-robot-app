@@ -1,5 +1,4 @@
 <?php
-
 class MoveCommand extends ToyRobotCommand
 {
     public function execute() : void
@@ -11,16 +10,16 @@ class MoveCommand extends ToyRobotCommand
         switch($moveDirection)
         {
             case Direction::NORTH:
-                $yDestination += 1;
+                $yDestination++;
                 break;
             case Direction::SOUTH:
-                $yDestination -= 1;
+                $yDestination--;
                 break;
             case Direction::EAST:
-                $xDestination += 1;
+                $xDestination++;
                 break;
             case Direction::WEST:
-                $xDestination -= 1;
+                $xDestination--;
                 break;
         }
 
