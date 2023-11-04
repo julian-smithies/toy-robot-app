@@ -14,14 +14,13 @@ class MoveCommand extends ToyRobotCommand
         $this->table = $table;
     }
 
-    public function execute() : void
+    public function execute(): void
     {
         $xDestination = $this->toyRobot->getXPosition();
         $yDestination = $this->toyRobot->getYPosition();
         $moveDirection = $this->toyRobot->getDirection();
 
-        switch($moveDirection)
-        {
+        switch ($moveDirection) {
             case Direction::NORTH:
                 $yDestination++;
                 break;

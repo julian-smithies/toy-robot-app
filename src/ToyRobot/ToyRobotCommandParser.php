@@ -11,12 +11,14 @@ class ToyRobotCommandParser
     private ToyRobot $toyRobot;
     private Table $table;
 
-    public function __construct(ToyRobot $toyRobot, Table $table) {
+    public function __construct(ToyRobot $toyRobot, Table $table)
+    {
         $this->toyRobot = $toyRobot;
         $this->table = $table;
     }
 
-    public function parse(string $commandString): Command {
+    public function parse(string $commandString): Command
+    {
         if (!$this->commandStringIsValid($commandString)) {
             return new InvalidCommand($commandString);
         }

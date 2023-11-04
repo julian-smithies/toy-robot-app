@@ -12,8 +12,10 @@ use Julian\ToyRobotApp\ToyRobot\ToyRobot;
 use Julian\ToyRobotApp\ToyRobot\ToyRobotCommandQueue;
 use PHPUnit\Framework\TestCase;
 
-final class ToyRobotTest extends TestCase {
-    function testRobotCanBePlacedOnTable() {
+final class ToyRobotTest extends TestCase
+{
+    function testRobotCanBePlacedOnTable()
+    {
         $xPosition = 3;
         $yPosition = 3;
         $direction = Direction::NORTH;
@@ -28,7 +30,8 @@ final class ToyRobotTest extends TestCase {
         $this->assertEquals($robot->getDirection(), $direction);
     }
 
-    function testRobotCanMoveOnTable() {
+    function testRobotCanMoveOnTable()
+    {
         $robot = new ToyRobot();
         $robot->setPosition(2, 2);
         $robot->setDirection(Direction::NORTH);
@@ -41,7 +44,8 @@ final class ToyRobotTest extends TestCase {
         $this->assertEquals($robot->getYPosition(), 3);
     }
 
-    function testRobotCanRotateLeft() {
+    function testRobotCanRotateLeft()
+    {
         $robot = new ToyRobot();
 
         $robot->setDirection(Direction::NORTH);
@@ -52,7 +56,8 @@ final class ToyRobotTest extends TestCase {
         $this->assertEquals($robot->getDirection(), Direction::WEST);
     }
 
-    function testRobotCanRotateRight() {
+    function testRobotCanRotateRight()
+    {
         $robot = new ToyRobot();
 
         $robot->setDirection(Direction::NORTH);
@@ -60,10 +65,11 @@ final class ToyRobotTest extends TestCase {
         $command = new RightCommand($robot);
         $command->execute();
 
-        $this->assertEquals($robot->getDirection(),  Direction::EAST);
+        $this->assertEquals($robot->getDirection(), Direction::EAST);
     }
 
-    function testRobotCanReport() {
+    function testRobotCanReport()
+    {
         $robot = new ToyRobot();
 
         $robot->setPosition(3, 3);
@@ -75,15 +81,16 @@ final class ToyRobotTest extends TestCase {
         $this->expectOutputRegex("/Output: 3,3,NORTH/");
     }
 
-    function testRobotIgnoresPlaceCommandIfPositionIsOffTable() {
+    function testRobotIgnoresPlaceCommandIfPositionIsOffTable()
+    {
         $robot = new ToyRobot();
 
         $invoker = new CommandInvoker();
         $invoker->invoke(
             new PlaceCommand(
-                $robot, 
-                new Table(5, 5), 
-                10, 
+                $robot,
+                new Table(5, 5),
+                10,
                 10,
                 Direction::NORTH
             )
@@ -92,7 +99,8 @@ final class ToyRobotTest extends TestCase {
         $this->assertFalse($robot->hasBeenPlaced());
     }
 
-    function testRobotIgnoresCommandsIfNotPlaced() {
+    function testRobotIgnoresCommandsIfNotPlaced()
+    {
         $robot = new ToyRobot();
         $table = new Table(5, 5);
 

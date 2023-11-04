@@ -4,14 +4,17 @@ namespace Julian\ToyRobotApp\ToyRobot;
 use Julian\ToyRobotApp\Command\CommandInvoker;
 use Julian\ToyRobotApp\Generic\Table;
 
-class ToyRobotCommandQueue 
+class ToyRobotCommandQueue
 {
     private ToyRobot $toyRobot;
     private Table $table;
     private array $commands;
     private int $commandsExecuted;
 
-    public function getCommandsExecuted() { return $this->commandsExecuted; }
+    public function getCommandsExecuted()
+    {
+        return $this->commandsExecuted;
+    }
 
     public function __construct(ToyRobot $toyRobot, Table $table, array $commands = [])
     {
@@ -47,15 +50,16 @@ class ToyRobotCommandQueue
         $invoker = new CommandInvoker();
         foreach ($this->commands as $command) {
             $invoker->invoke($command);
-            if($invoker->commandWasExecuted()) {
+            if ($invoker->commandWasExecuted()) {
                 $this->commandsExecuted++;
             }
         }
     }
 
-    private function resetCommandsExecuted() {
+    private function resetCommandsExecuted()
+    {
         $this->commandsExecuted = 0;
     }
 
-   
+
 }
