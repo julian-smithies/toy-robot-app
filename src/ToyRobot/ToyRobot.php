@@ -40,7 +40,7 @@ class ToyRobot
             $this->xPosition,
             $this->yPosition,
             $this->direction
-            );
+        );
     }
 
     public function hasSpaceToMove(Table $table)
