@@ -129,7 +129,9 @@ final class ToyRobotTest extends TestCase
         $queue->addCommandFromString("REPORT");
         $queue->invokeCommands();
 
-        $this->expectOutputRegex("/Output: 3,5,NORTH/");
+        $this->assertEquals($robot->getXPosition(), 3);
+        $this->assertEquals($robot->getYPosition(), 5);
+        $this->assertEquals($robot->getDirection(), Direction::NORTH);
     }
 
     function testRobotExecutesNewCommandsAfterIgnoringMoveCommand() {
@@ -149,7 +151,9 @@ final class ToyRobotTest extends TestCase
         $queue->addCommandFromString("REPORT");
         $queue->invokeCommands();
 
-        $this->expectOutputRegex("/Output: 5,5,EAST/");
+        $this->assertEquals($robot->getXPosition(), 5);
+        $this->assertEquals($robot->getYPosition(), 5);
+        $this->assertEquals($robot->getDirection(), Direction::EAST);
     }
 
     function testRobotCanBePlacedMultipleTimes() {
