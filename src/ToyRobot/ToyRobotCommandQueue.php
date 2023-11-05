@@ -60,6 +60,4 @@ class ToyRobotCommandQueue
     {
         $this->commandsExecuted = 0;
     }
-
-
 }
