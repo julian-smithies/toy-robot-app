@@ -1,5 +1,5 @@
-FROM mcr.microsoft.com/devcontainers/php:1-8.2-bullseye
+FROM php:cli
 COPY . /var/www/toy-robot-app
 WORKDIR /var/www/toy-robot-app
-EXPOSE 8000
-CMD bash -c "composer install && php -S localhost:8000 ./router.php"
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+CMD bash -c "composer install"

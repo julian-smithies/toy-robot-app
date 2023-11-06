@@ -9,11 +9,11 @@ class ReportCommand extends ToyRobotCommand
         $yPosition = $this->toyRobot->getYPosition();
         $direction = $this->toyRobot->getDirection();
 
-        echo ("<br>Output: " . implode(',', [
+        echo ("Output: " . implode(',', [
             $xPosition,
             $yPosition,
             $direction->value
-        ]));
+        ]) . "\n");
     }
 
     public function canExecute(): bool

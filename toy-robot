@@ -1,4 +1,7 @@
+#!/usr/bin/env php
 <?php
+require 'vendor/autoload.php';
+
 use Julian\ToyRobotApp\ToyRobot\ToyRobot;
 use Julian\ToyRobotApp\Generic\Table;
 use Julian\ToyRobotApp\ToyRobot\ToyRobotCommandQueue;
@@ -6,5 +9,9 @@ use Julian\ToyRobotApp\ToyRobot\ToyRobotCommandQueue;
 $robot = new ToyRobot();
 $table = new Table(5, 5);
 $commandQueue = new ToyRobotCommandQueue($robot, $table);
-$commandQueue->importCommandsFromFile($_SERVER['DOCUMENT_ROOT'] . '/inputs/test_all_commands.txt');
-$commandQueue->invokeCommands();
+
+$inputFile = $argv[1];
+if(isset($inputFile) && trim($inputFile) != '') {
+    $commandQueue->importCommandsFromFile($inputFile);
+    $commandQueue->invokeCommands();
+}
