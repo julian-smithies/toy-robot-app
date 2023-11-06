@@ -1,8 +1,9 @@
 <?php
 use Julian\ToyRobot\CommandQueue;
+use Julian\ToyRobot\Table;
 use Julian\ToyRobot\ToyRobot;
 
 $robot = new ToyRobot();
-$commandQueue = new CommandQueue($robot);
-$commandQueue->importFromFile($_SERVER['DOCUMENT_ROOT'] . '/inputs/test_commands.txt');
-$commandQueue->execute();
+$table = new Table(5, 5);
+$commandQueue = new CommandQueue($robot, $table);
+$commandQueue->invokeCommands();

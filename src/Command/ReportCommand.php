@@ -15,4 +15,9 @@ class ReportCommand extends ToyRobotCommand
             $direction->value
         ]));
     }
+
+    public function canExecute(): bool
+    {
+        return $this->toyRobot->hasBeenPlaced();
+    }
 }

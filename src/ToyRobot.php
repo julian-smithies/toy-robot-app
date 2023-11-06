@@ -26,12 +26,22 @@ class ToyRobot {
         $this->direction = $direction;
     }
 
-    // public function isOn(Table $table) : bool
-    // {
-    //     return $this->xPosition >= 1
-    //         && $this->xPosition <= $table->getXDimension()
-    //         && $this->yPosition >= 1
-    //         && $this->yPosition <= $table->getYDimension();
-    // }
+    public function hasBeenPlaced() : bool
+    {
+        return isset(
+            $this->xPosition,
+            $this->yPosition,
+            $this->direction
+        );
+    }
+
+    public function hasSpaceToMove(Table $table) {
+        return match($this->direction) {
+            Direction::NORTH => $this->yPosition < $table->getYDimension(),
+            Direction::SOUTH => $this->yPosition > 0,
+            Direction::EAST => $this->xPosition < $table->getXDimension(),
+            Direction::WEST => $this->xPosition > 0
+        };
+    }
 }
 ?>

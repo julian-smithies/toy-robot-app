@@ -16,4 +16,9 @@ class LeftCommand extends ToyRobotCommand
             Direction::WEST => Direction::SOUTH,
         });
     }
+
+    public function canExecute(): bool
+    {
+        return $this->toyRobot->hasBeenPlaced();
+    }
 }

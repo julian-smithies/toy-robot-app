@@ -8,16 +8,22 @@ use Julian\ToyRobot\Command\MoveCommand;
 use Julian\ToyRobot\Command\PlaceCommand;
 use Julian\ToyRobot\Command\ReportCommand;
 use Julian\ToyRobot\Command\RightCommand;
+use Julian\ToyRobot\Command\ToyRobotCommand;
 use Julian\ToyRobot\ToyRobot;
 
 class CommandQueue 
 {
     private ToyRobot $toyRobot;
+    private Table $table;
     private array $commands;
+    private int $commandsExecuted;
 
-    public function __construct(ToyRobot $toyRobot, array $commands = [])
+    public function getCommandsExecuted() { return $this->commandsExecuted; }
+
+    public function __construct(ToyRobot $toyRobot, Table $table, array $commands = [])
     {
         $this->toyRobot = $toyRobot;
+        $this->table = $table;
         $this->commands = $commands;
     }
 
@@ -37,11 +43,15 @@ class CommandQueue
             return;
         }
 
+        $command = match (0) {
             strpos($commandString, 'PLACE') => new PlaceCommand(
-                $this->toyRobot, ...explode(",", explode(" ", $commandString)[1])
+                $this->toyRobot,
+                $this->table,
+                ...explode(",", explode(" ", $commandString)[1])
             ),
             strpos($commandString, 'MOVE') => new MoveCommand(
-                $this->toyRobot
+                $this->toyRobot,
+                $this->table
             ),
             strpos($commandString, 'LEFT') => new LeftCommand(
                 $this->toyRobot
@@ -60,6 +70,23 @@ class CommandQueue
     public function addCommand(Command $command)
     {
         array_push($this->commands, $command);
+    }
+
+    public function invokeCommands()
+    {
+        $this->resetCommandsExecuted();
+
+        $invoker = new CommandInvoker();
+        foreach ($this->commands as $command) {
+            $invoker->invoke($command);
+            if($invoker->commandWasExecuted()) {
+                $this->commandsExecuted++;
+            }
+        }
+    }
+
+    private function resetCommandsExecuted() {
+        $this->commandsExecuted = 0;
     }
 
     public function commandStringIsValid($commandString)

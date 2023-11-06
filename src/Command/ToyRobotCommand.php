@@ -13,6 +13,10 @@ abstract class ToyRobotCommand implements Command
     {
         $this->toyRobot = $toyRobot;
     }
+
+    public abstract function execute() : void;
     
-    abstract function execute(): void;
+    public function canExecute(): bool {
+        return true;
+    }
 }

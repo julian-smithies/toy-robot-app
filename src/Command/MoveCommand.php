@@ -2,9 +2,19 @@
 namespace Julian\ToyRobot\Command;
 
 use Julian\ToyRobot\Direction;
+use Julian\ToyRobot\Table;
+use Julian\ToyRobot\ToyRobot;
 
 class MoveCommand extends ToyRobotCommand
 {
+    private Table $table;
+
+    public function __construct(ToyRobot $toyRobot, Table $table)
+    {
+        parent::__construct($toyRobot);
+        $this->table = $table;
+    }
+
     public function execute() : void
     {
         $xDestination = $this->toyRobot->getXPosition();
@@ -28,5 +38,11 @@ class MoveCommand extends ToyRobotCommand
         }
 
         $this->toyRobot->setPosition($xDestination, $yDestination);
+    }
+
+    public function canExecute(): bool
+    {
+        return $this->toyRobot->hasBeenPlaced()
+            && $this->toyRobot->hasSpaceToMove($this->table);
     }
 }
