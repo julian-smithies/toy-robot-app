@@ -27,9 +27,10 @@ class CommandQueue
         $this->commands = $commands;
     }
 
-    public function importFromFile($file) {
+    public function importCommandsFromFile($file)
+    {
         $commandStrings = file($file, FILE_IGNORE_NEW_LINES);
-        foreach($commandStrings as $commandString) {
+        foreach ($commandStrings as $commandString) {
             $this->addCommandFromString(trim($commandString));
         }
     }
