@@ -1,9 +1,8 @@
 <?php
-namespace Julian\ToyRobot\Command;
+namespace Julian\ToyRobotApp\ToyRobot;
 
-use Julian\ToyRobot\Direction;
-use Julian\ToyRobot\Table;
-use Julian\ToyRobot\ToyRobot;
+use Julian\ToyRobotApp\Generic\Direction;
+use Julian\ToyRobotApp\Generic\Table;
 
 class MoveCommand extends ToyRobotCommand
 {
@@ -15,27 +14,18 @@ class MoveCommand extends ToyRobotCommand
         $this->table = $table;
     }
 
-    public function execute() : void
+    public function execute(): void
     {
         $xDestination = $this->toyRobot->getXPosition();
         $yDestination = $this->toyRobot->getYPosition();
         $moveDirection = $this->toyRobot->getDirection();
 
-        switch($moveDirection)
-        {
-            case Direction::NORTH:
-                $yDestination++;
-                break;
-            case Direction::SOUTH:
-                $yDestination--;
-                break;
-            case Direction::EAST:
-                $xDestination++;
-                break;
-            case Direction::WEST:
-                $xDestination--;
-                break;
-        }
+        match ($moveDirection) {
+            Direction::NORTH => $yDestination++,
+            Direction::SOUTH => $yDestination--,
+            Direction::EAST => $xDestination++,
+            Direction::WEST => $xDestination--,
+        };
 
         $this->toyRobot->setPosition($xDestination, $yDestination);
     }

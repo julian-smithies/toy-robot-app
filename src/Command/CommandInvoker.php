@@ -1,7 +1,5 @@
 <?php
-namespace Julian\ToyRobot;
-
-use Julian\ToyRobot\Command\Command;
+namespace Julian\ToyRobotApp\Command;
 
 class CommandInvoker
 {
@@ -9,13 +7,14 @@ class CommandInvoker
 
     public function invoke(Command $command)
     {
-        if($command->canExecute()) {
+        if ($command->canExecute()) {
             $command->execute();
             $this->commandExecuted = true;
         }
     }
 
-    public function commandWasExecuted():bool {
+    public function commandWasExecuted(): bool
+    {
         return $this->commandExecuted;
     }
 }

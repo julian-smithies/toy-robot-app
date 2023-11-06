@@ -1,7 +1,7 @@
 <?php
-namespace Julian\ToyRobot\Command;
+namespace Julian\ToyRobotApp\ToyRobot;
 
-use Julian\ToyRobot\Direction;
+use Julian\ToyRobotApp\Generic\Direction;
 
 class RightCommand extends ToyRobotCommand
 {

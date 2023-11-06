@@ -1,12 +1,12 @@
 {
-    "name": "julian/toy-robot",
+    "name": "julian/toy-robot-app",
     "type": "project",
     "require-dev": {
         "phpunit/phpunit": "^10.4"
     },
     "autoload": {
         "psr-4": {
-            "Julian\\ToyRobot\\": "src/"
+            "Julian\\ToyRobotApp\\": "src/"
         }
     },
     "authors": [

@@ -1,9 +1,8 @@
 <?php
-namespace Julian\ToyRobot\Command;
+namespace Julian\ToyRobotApp\ToyRobot;
 
-use Julian\ToyRobot\Direction;
-use Julian\ToyRobot\Table;
-use Julian\ToyRobot\ToyRobot;
+use Julian\ToyRobotApp\Generic\Direction;
+use Julian\ToyRobotApp\Generic\Table;
 
 class PlaceCommand extends ToyRobotCommand
 {
@@ -21,13 +20,13 @@ class PlaceCommand extends ToyRobotCommand
         $this->direction = $direction instanceof Direction ? $direction : Direction::from($direction);
     }
 
-    public function execute() : void
+    public function execute(): void
     {
         $this->toyRobot->setPosition($this->xPosition, $this->yPosition);
         $this->toyRobot->setDirection($this->direction);
     }
 
-    public function canExecute() : bool
+    public function canExecute(): bool
     {
         return $this->xPosition >= 0
             && $this->xPosition <= $this->table->getXDimension()

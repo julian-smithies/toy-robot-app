@@ -1,19 +1,22 @@
 <?php
 
-use Julian\ToyRobot\Command\LeftCommand;
+use Julian\ToyRobotApp\Command\CommandInvoker;
+use Julian\ToyRobotApp\Generic\Direction;
+use Julian\ToyRobotApp\Generic\Table;
+use Julian\ToyRobotApp\ToyRobot\LeftCommand;
+use Julian\ToyRobotApp\ToyRobot\MoveCommand;
+use Julian\ToyRobotApp\ToyRobot\PlaceCommand;
+use Julian\ToyRobotApp\ToyRobot\ReportCommand;
+use Julian\ToyRobotApp\ToyRobot\RightCommand;
+use Julian\ToyRobotApp\ToyRobot\ToyRobot;
+use Julian\ToyRobotApp\ToyRobot\ToyRobotCommandParser;
+use Julian\ToyRobotApp\ToyRobot\ToyRobotCommandQueue;
 use PHPUnit\Framework\TestCase;
-use Julian\ToyRobot\Command\MoveCommand;
-use Julian\ToyRobot\Command\PlaceCommand;
-use Julian\ToyRobot\Command\ReportCommand;
-use Julian\ToyRobot\Command\RightCommand;
-use Julian\ToyRobot\CommandInvoker;
-use Julian\ToyRobot\CommandQueue;
-use Julian\ToyRobot\Direction;
-use Julian\ToyRobot\Table;
-use Julian\ToyRobot\ToyRobot;
 
-final class ToyRobotTest extends TestCase {
-    function testRobotCanBePlacedOnTable() {
+final class ToyRobotTest extends TestCase
+{
+    function testRobotCanBePlacedOnTable()
+    {
         $xPosition = 3;
         $yPosition = 3;
         $direction = Direction::NORTH;
@@ -28,7 +31,8 @@ final class ToyRobotTest extends TestCase {
         $this->assertEquals($robot->getDirection(), $direction);
     }
 
-    function testRobotCanMoveOnTable() {
+    function testRobotCanMoveOnTable()
+    {
         $robot = new ToyRobot();
         $robot->setPosition(2, 2);
         $robot->setDirection(Direction::NORTH);
@@ -41,7 +45,8 @@ final class ToyRobotTest extends TestCase {
         $this->assertEquals($robot->getYPosition(), 3);
     }
 
-    function testRobotCanRotateLeft() {
+    function testRobotCanRotateLeft()
+    {
         $robot = new ToyRobot();
 
         $robot->setDirection(Direction::NORTH);
@@ -52,7 +57,8 @@ final class ToyRobotTest extends TestCase {
         $this->assertEquals($robot->getDirection(), Direction::WEST);
     }
 
-    function testRobotCanRotateRight() {
+    function testRobotCanRotateRight()
+    {
         $robot = new ToyRobot();
 
         $robot->setDirection(Direction::NORTH);
@@ -60,10 +66,11 @@ final class ToyRobotTest extends TestCase {
         $command = new RightCommand($robot);
         $command->execute();
 
-        $this->assertEquals($robot->getDirection(),  Direction::EAST);
+        $this->assertEquals($robot->getDirection(), Direction::EAST);
     }
 
-    function testRobotCanReport() {
+    function testRobotCanReport()
+    {
         $robot = new ToyRobot();
 
         $robot->setPosition(3, 3);
@@ -75,15 +82,16 @@ final class ToyRobotTest extends TestCase {
         $this->expectOutputRegex("/Output: 3,3,NORTH/");
     }
 
-    function testRobotIgnoresPlaceCommandIfPositionIsOffTable() {
+    function testRobotIgnoresPlaceCommandIfPositionIsOffTable()
+    {
         $robot = new ToyRobot();
 
         $invoker = new CommandInvoker();
         $invoker->invoke(
             new PlaceCommand(
-                $robot, 
-                new Table(5, 5), 
-                10, 
+                $robot,
+                new Table(5, 5),
+                10,
                 10,
                 Direction::NORTH
             )
@@ -92,11 +100,12 @@ final class ToyRobotTest extends TestCase {
         $this->assertFalse($robot->hasBeenPlaced());
     }
 
-    function testRobotIgnoresCommandsIfNotPlaced() {
+    function testRobotIgnoresCommandsIfNotPlaced()
+    {
         $robot = new ToyRobot();
         $table = new Table(5, 5);
 
-        $queue = new CommandQueue($robot, $table);
+        $queue = new ToyRobotCommandQueue($robot, $table);
         $queue->addCommandFromString("MOVE");
         $queue->addCommandFromString("LEFT");
         $queue->addCommandFromString("RIGHT");
@@ -104,5 +113,72 @@ final class ToyRobotTest extends TestCase {
         $queue->invokeCommands();
 
         $this->assertEquals($queue->getCommandsExecuted(), 0);
+    }
+
+    function testRobotIgnoresMoveCommandIfDestinationIsOffTable() {
+        $robot = new ToyRobot();
+        $table = new Table(5, 5);
+
+        $queue = new ToyRobotCommandQueue($robot, $table);
+        $queue->addCommandFromString("PLACE 3,3,NORTH");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("REPORT");
+        $queue->invokeCommands();
+
+        $this->assertEquals($robot->getXPosition(), 3);
+        $this->assertEquals($robot->getYPosition(), 5);
+        $this->assertEquals($robot->getDirection(), Direction::NORTH);
+    }
+
+    function testRobotExecutesNewCommandsAfterIgnoringMoveCommand() {
+        $robot = new ToyRobot();
+        $table = new Table(5, 5);
+
+        $queue = new ToyRobotCommandQueue($robot, $table);
+        $queue->addCommandFromString("PLACE 3,3,NORTH");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("RIGHT");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("REPORT");
+        $queue->invokeCommands();
+
+        $this->assertEquals($robot->getXPosition(), 5);
+        $this->assertEquals($robot->getYPosition(), 5);
+        $this->assertEquals($robot->getDirection(), Direction::EAST);
+    }
+
+    function testRobotCanBePlacedMultipleTimes() {
+        $robot = new ToyRobot();
+        $table = new Table(5, 5);
+
+        $parser = new ToyRobotCommandParser($robot, $table);
+        $placeCommand1 = $parser->parse("PLACE 3,3,NORTH");
+        $placeCommand2 = $parser->parse("PLACE 2,5,EAST");
+        $placeCommand3 = $parser->parse("PLACE 4,1,WEST");
+
+        $invoker = new CommandInvoker();
+        $invoker->invoke($placeCommand1);
+        $this->assertEquals($robot->getXPosition(), 3);
+        $this->assertEquals($robot->getYPosition(), 3);
+        $this->assertEquals($robot->getDirection(), Direction::NORTH);
+
+        $invoker->invoke($placeCommand2);
+        $this->assertEquals($robot->getXPosition(), 2);
+        $this->assertEquals($robot->getYPosition(), 5);
+        $this->assertEquals($robot->getDirection(), Direction::EAST);
+
+        $invoker->invoke($placeCommand3);
+        $this->assertEquals($robot->getXPosition(), 4);
+        $this->assertEquals($robot->getYPosition(), 1);
+        $this->assertEquals($robot->getDirection(), Direction::WEST);
     }
 }
