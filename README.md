@@ -21,7 +21,7 @@ docker run --rm -v .:/var/www/toy-robot-app -w /var/www/toy-robot-app toy-robot-
 ## Execution
 The application will expect a file with a list of commands to execute.
 
-Several test files are included in the `inputs` directory:
+Several test files are included in the `./inputs` directory:
 * `./inputs/test_place.txt`
 * `./inputs/test_all_commands.txt`
 * `./inputs/test_long_sequence.txt`
