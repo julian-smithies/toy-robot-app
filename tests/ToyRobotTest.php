@@ -67,7 +67,14 @@ final class ToyRobotTest extends TestCase {
         $command = new ReportCommand($robot);
         $command->execute();
 
-        // $this->expectOutputString();
         $this->expectOutputRegex("/Output: 3,3,NORTH/");
+    }
+
+    function testRobotIgnoresPlaceCommandIfPositionIsOffTable() {
+
+    }
+
+    function testRobotIgnoresCommandsIfNotPlaced() {
+
     }
 }
