@@ -3,5 +3,5 @@ COPY . /var/www/toy-robot-app
 WORKDIR /var/www/toy-robot-app
 RUN apt-get -y update
 RUN apt-get -y install git
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 CMD bash -c "composer install"
