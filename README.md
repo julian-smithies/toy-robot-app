@@ -4,39 +4,38 @@
 This is a solution to the Toy Robot Coding Challenge written in PHP.
 
 ## Setup
-You will need a system running PHP 8.1 or above.
+You will need a system running PHP 8.1 or above with composer installed.
 
-An easy way to run the solution is to set up a GitHub Codespace using the provided devcontainer.json file.
+If you have Docker, the Dockerfile provided will build a container with PHP 8.2 and composer installed for dependencies.
 
-Simply start by creating a codespace on master:
-
-<img width="297" alt="image" src="https://github.com/julian-smithies/toy-robot-app/assets/27047577/e7225df0-3277-4908-8837-f69f2da9da68">
-
-
-Once the codespace is up and the terminal is ready, run the PHP CLI built-in test server:
-
+With Docker running, build the container with:
 ```
-php -S localhost:8000 ./router.php
+docker build -t toy-robot-app .
 ```
 
-Navigate to the ports tab to preview the app in your browser.
+Run `composer install` to install dependencies:
+```
+docker run --rm -v .:/var/www/toy-robot-app -w /var/www/toy-robot-app toy-robot-app composer install
+```
 
 ## Execution
-By default, the application will route to `public/index.php`. This script is set up to load commands from a test file in the `inputs` folder.
+The application will expect a file with a list of commands to execute.
 
-The default test file is `test_all_commands.txt`. Two other test files are also provided: `test_place.txt` and `test_long_sequence.txt`. You can modify the `public/index.php` to test these (or any other) command files as needed.
+Several test files are included in the `inputs` directory:
+* `./inputs/test_place.txt`
+* `./inputs/test_all_commands.txt`
+* `./inputs/test_long_sequence.txt`
 
-The output of the solution will be displayed in the browser preview.
+Simply use the following command to run the application with a test file:
+```
+docker run --rm -v .:/var/www/toy-robot-app -w /var/www/toy-robot-app toy-robot-app php toy-robot {{PATH TO TEST FILE}}
+```
+
+The output of the solution will be displayed in the console.
 
 ## Testing
-You can also run PHPUnit to test the application (does not require the PHP CLI server to be running). First, run composer install if PHPUnit is not already installed:
+You can also run PHPUnit to test several built-in tests for the application:
 
 ```
-composer install
-```
-
-Then, run PHPUnit using the `./tests` directory:
-
-```
-./vendor/phpunit/phpunit/phpunit ./tests --testdox
+docker run --rm -v .:/var/www/toy-robot-app -w /var/www/toy-robot-app toy-robot-app ./vendor/phpunit/phpunit/phpunit ./tests --testdox
 ```
