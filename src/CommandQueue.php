@@ -24,12 +24,19 @@ class CommandQueue
     public function importFromFile($file) {
         $commandStrings = file($file, FILE_IGNORE_NEW_LINES);
         foreach($commandStrings as $commandString) {
-            $this->addCommandFromString($commandString);
+            $this->addCommandFromString(trim($commandString));
         }
     }
 
-    public function addCommandFromString(string $commandString) {
-        $command = match(0) {
+    public function addCommandFromString(string $commandString)
+    {
+        if (!$this->commandStringIsValid($commandString)) {
+            $this->addCommand(
+                new InvalidCommand($commandString)
+            );
+            return;
+        }
+
             strpos($commandString, 'PLACE') => new PlaceCommand(
                 $this->toyRobot, ...explode(",", explode(" ", $commandString)[1])
             ),
@@ -44,8 +51,7 @@ class CommandQueue
             ),
             strpos($commandString, 'REPORT') => new ReportCommand(
                 $this->toyRobot
-            ),
-            default => new InvalidCommand()
+            )
         };
 
         $this->addCommand($command);
@@ -56,10 +62,8 @@ class CommandQueue
         array_push($this->commands, $command);
     }
 
-    public function execute()
+    public function commandStringIsValid($commandString)
     {
-        foreach($this->commands as $command) {
-            $command->execute();
-        }
+        return preg_match(ToyRobotCommand::COMMAND_REGEX, $commandString);
     }
 }
