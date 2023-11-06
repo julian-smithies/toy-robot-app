@@ -24,7 +24,7 @@ Navigate to the ports tab to preview the app in your browser.
 ## Execution
 By default, the application will route to `public/index.php`. This script is set up to load commands from a test file in the `inputs` folder.
 
-The default test file is `test_all_commands.txt`. Two other test files are also provided: `test_place.txt` and `test_long_sequence.txt`.
+The default test file is `test_all_commands.txt`. Two other test files are also provided: `test_place.txt` and `test_long_sequence.txt`. You can modify the `public/index.php` to test these (or any other) command files as needed.
 
 The output of the solution will be displayed in the browser preview.
 
