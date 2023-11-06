@@ -29,7 +29,13 @@ The default test file is `test_all_commands.txt`. Two other test files are also 
 The output of the solution will be displayed in the browser preview.
 
 ## Testing
-You can also run PHPUnit to test the application with the following command (does not require the PHP CLI server to be running): 
+You can also run PHPUnit to test the application (does not require the PHP CLI server to be running). First, run composer install if PHPUnit is not already installed:
+
+```
+composer install
+```
+
+Then, run PHPUnit using the `./tests` directory:
 
 ```
 ./vendor/phpunit/phpunit/phpunit ./tests --testdox
