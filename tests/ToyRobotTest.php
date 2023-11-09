@@ -115,7 +115,7 @@ final class ToyRobotTest extends TestCase
         $this->assertEquals($queue->getCommandsExecuted(), 0);
     }
 
-    function testRobotIgnoresMoveCommandIfDestinationIsOffTable() {
+    function testRobotIgnoresMoveCommandIfDestinationIsOffTableInAnyDirection() {
         $robot = new ToyRobot();
         $table = new Table(5, 5);
 
@@ -128,10 +128,49 @@ final class ToyRobotTest extends TestCase
         $queue->addCommandFromString("MOVE");
         $queue->addCommandFromString("REPORT");
         $queue->invokeCommands();
-
         $this->assertEquals($robot->getXPosition(), 3);
         $this->assertEquals($robot->getYPosition(), 5);
         $this->assertEquals($robot->getDirection(), Direction::NORTH);
+
+        $queue = new ToyRobotCommandQueue($robot, $table);
+        $queue->addCommandFromString("PLACE 3,3,SOUTH");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("REPORT");
+        $queue->invokeCommands();
+        $this->assertEquals($robot->getXPosition(), 3);
+        $this->assertEquals($robot->getYPosition(), 1);
+        $this->assertEquals($robot->getDirection(), Direction::SOUTH);
+
+        $queue = new ToyRobotCommandQueue($robot, $table);
+        $queue->addCommandFromString("PLACE 3,3,EAST");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("REPORT");
+        $queue->invokeCommands();
+        $this->assertEquals($robot->getXPosition(), 5);
+        $this->assertEquals($robot->getYPosition(), 3);
+        $this->assertEquals($robot->getDirection(), Direction::EAST);
+
+        $queue = new ToyRobotCommandQueue($robot, $table);
+        $queue->addCommandFromString("PLACE 3,3,WEST");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("MOVE");
+        $queue->addCommandFromString("REPORT");
+        $queue->invokeCommands();
+        $this->assertEquals($robot->getXPosition(), 1);
+        $this->assertEquals($robot->getYPosition(), 3);
+        $this->assertEquals($robot->getDirection(), Direction::WEST);
+
     }
 
     function testRobotExecutesNewCommandsAfterIgnoringMoveCommand() {

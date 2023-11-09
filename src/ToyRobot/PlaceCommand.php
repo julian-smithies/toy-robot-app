@@ -28,9 +28,9 @@ class PlaceCommand extends ToyRobotCommand
 
     public function canExecute(): bool
     {
-        return $this->xPosition >= 0
+        return $this->xPosition > 0
             && $this->xPosition <= $this->table->getXDimension()
-            && $this->yPosition >= 0
+            && $this->yPosition > 0
             && $this->yPosition <= $this->table->getYDimension();
     }
 }

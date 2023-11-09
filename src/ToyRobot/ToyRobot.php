@@ -47,9 +47,9 @@ class ToyRobot
     {
         return match ($this->direction) {
             Direction::NORTH => $this->yPosition < $table->getYDimension(),
-            Direction::SOUTH => $this->yPosition > 0,
+            Direction::SOUTH => $this->yPosition > 1,
             Direction::EAST => $this->xPosition < $table->getXDimension(),
-            Direction::WEST => $this->xPosition > 0
+            Direction::WEST => $this->xPosition > 1
         };
     }
 }
